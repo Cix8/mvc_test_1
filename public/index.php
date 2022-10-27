@@ -5,6 +5,8 @@ use App\Database\DbFactory;
 
 require_once __DIR__ . "/../database/DB.php";
 require_once __DIR__ . "/../database/DbFactory.php";
+require_once __DIR__ . "/../utilities/function.php";
+require_once __DIR__ . "/../app/models/Post.php";
 
 //error_reporting(E_ALL);
 chdir(dirname(__DIR__));

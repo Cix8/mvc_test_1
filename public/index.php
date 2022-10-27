@@ -2,8 +2,10 @@
 //require_once __DIR__ . "/../layout/index.template.php";
 
 use App\Database\DB;
+use App\Database\DbFactory;
 
 require_once __DIR__ . "/../database/DB.php";
+require_once __DIR__ . "/../database/DbFactory.php";
 
 //error_reporting(E_ALL);
 chdir(dirname(__DIR__));
@@ -12,7 +14,7 @@ $data = require "config/database.php";
 
 $db_conn;
 try {
-    $db_conn = DB::getInstance($data);
+    $db_conn = DbFactory::create($data);
 } catch (PDOException $ex) {
     die($ex->getMessage());
 }

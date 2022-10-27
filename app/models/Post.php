@@ -66,11 +66,20 @@ class Post
     }
 
     public function save(array $data = []) {
+        if(!array_key_exists('title', $data) || trim($data["title"]) === "") {
+            redirect("/create");
+        }
+        if(!array_key_exists('message', $data) || trim($data["message"]) === "") {
+            redirect("/create");
+        }
+        if(!array_key_exists('email', $data) || trim($data["email"]) === "") {
+            redirect("/create");
+        }
         $query = "INSERT INTO post (title, message, email, created_at) VALUES (:title, :message, :email, :created)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam("title", $data["title"], PDO::PARAM_STR);
-        $stmt->bindParam("message", $data["message"], PDO::PARAM_STR);
-        $stmt->bindParam("email", $data["email"], PDO::PARAM_STR);
+        $stmt->bindParam("title", trim($data["title"]), PDO::PARAM_STR);
+        $stmt->bindParam("message", trim($data["message"]), PDO::PARAM_STR);
+        $stmt->bindParam("email", trim($data["email"]), PDO::PARAM_STR);
         $stmt->bindParam("created", date("Y-m-d H:i:s", time() + 7200));
 
         $stmt->execute();

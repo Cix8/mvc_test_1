@@ -10,10 +10,10 @@ class DB {
 
     public static function getInstance(array $options)
     {
-        if (!static::$instance) {
-            static::$instance = new DB($options);
+        if (!DB::$instance) {
+            DB::$instance = new DB($options);
         }
-        return static::$instance;
+        return DB::$instance;
     }
 
     protected function __construct(array $options)

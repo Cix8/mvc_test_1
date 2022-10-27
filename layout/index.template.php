@@ -30,7 +30,7 @@
         </div>
 
         <div class="container text-white">
-            <?php echo $this->name; ?>
+            <?php echo $this->content; ?>
         </div>
 
     </div>

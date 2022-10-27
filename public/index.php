@@ -7,4 +7,5 @@ require_once __DIR__ . "/../app/controllers/PostController.php";
 
 $postController = new \App\Controllers\PostController();
 
+$postController->show(1);
 $postController->display();

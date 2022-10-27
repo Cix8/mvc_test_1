@@ -9,3 +9,8 @@ function view(string $view, array $data = [])
     ob_end_clean();
     return $content;
 }
+
+function redirect(string $url = "/") {
+    header("Location:" . $url);
+    exit;
+}

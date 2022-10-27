@@ -19,10 +19,12 @@
         <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
             <header class="mb-auto">
                 <div>
-                    <h3 class="float-md-start mb-0">MiniMVC</h3>
+                    <a class="text-white" href="/" style="text-decoration: none;">
+                        <h3 class="float-md-start mb-0">MiniMVC</h3>
+                    </a>
                     <nav class="nav nav-masthead justify-content-center float-md-end">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
-                        <a class="nav-link" href="">Features</a>
+                        <a class="nav-link" href="/create">Nuovo Post</a>
                         <a class="nav-link" href="">Contact</a>
                     </nav>
                 </div>

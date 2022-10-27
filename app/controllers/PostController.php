@@ -36,6 +36,8 @@ class PostController
         } else if($keys[0] === "create") {
             if($_SERVER['REQUEST_METHOD'] === 'GET'){
                 $this->content = call_user_func([$this, 'createGet']);
+            } else if($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $this->content = call_user_func([$this, 'create']);
             }
         }
     }
@@ -57,5 +59,10 @@ class PostController
     public function createGet() {
         $message = "FromCreate";
         return view('create', compact('message'));
+    }
+
+    public function create() {
+        $this->post->save($_POST);
+        redirect();
     }
 }

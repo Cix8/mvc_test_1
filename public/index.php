@@ -25,5 +25,5 @@ require_once __DIR__ . "/../app/controllers/PostController.php";
 
 $postController = new \App\Controllers\PostController($conn);
 
-// $postController->show($results);
+// $postController->show(2);
 $postController->display();

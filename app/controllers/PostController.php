@@ -13,7 +13,15 @@ class PostController
     public function __construct(PDO $_conn)
     {
         $this->conn = $_conn;
+        $this->index();
+    }
 
+    public function display()
+    {
+        require $this->layout;
+    }
+
+    public function getAll() {
         $stmt = null;
 
         try {
@@ -33,24 +41,48 @@ class PostController
             die();
         }
 
-        ob_start();
-        $data = $results;
+        return $results;
+    }
+
+    public function find(int $id) {
+        $stmt = null;
+
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM post WHERE id = :id");
+            $stmt->bindParam("id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $ex) {
+            die($ex->getMessage());
+        }
+
+        $results = null;
+
+        if ($stmt) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        if ($results === null) {
+            die();
+        }
+
+        return $results;
+    }
+
+    public function index() {
+        $data = $this->getAll();
         $message = "FromCostruct";
-        require_once __DIR__ . "/../views/post.template.php";
+        ob_start();
+        require_once __DIR__ . "/../views/post/index.template.php";
         $this->content = ob_get_contents();
         ob_end_clean();
     }
 
-    public function display()
+    public function show(int $id)
     {
-        require $this->layout;
-    }
-
-    public function show(array $data)
-    {
+        $data = $this->find($id);
         ob_start();
         $message = "FromShow";
-        require_once __DIR__ . "/../views/post.template.php";
+        require_once __DIR__ . "/../views/post/show.template.php";
         $this->content = ob_get_contents();
         ob_end_clean();
     }

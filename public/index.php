@@ -1,7 +1,6 @@
 <?php
 //require_once __DIR__ . "/../layout/index.template.php";
 
-use App\Database\DB;
 use App\Database\DbFactory;
 
 require_once __DIR__ . "/../database/DB.php";
@@ -25,5 +24,6 @@ require_once __DIR__ . "/../app/controllers/PostController.php";
 
 $postController = new \App\Controllers\PostController($conn);
 
+$postController->process();
 // $postController->show(2);
 $postController->display();

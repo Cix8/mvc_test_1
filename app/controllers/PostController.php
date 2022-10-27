@@ -29,9 +29,13 @@ class PostController
 
         if($keys[0] === "posts" || $keys[0] === "") {
             $this->content = call_user_func([$this, 'index']);
-        } else if($keys[0] === "post" || is_int(intval($keys[1]))) {
+        } else if($keys[0] === "post" && is_int(intval($keys[1]))) {
             if($_SERVER['REQUEST_METHOD'] === 'GET'){
                 $this->content = call_user_func([$this, 'show'], intval($keys[1]));
+            }
+        } else if($keys[0] === "create") {
+            if($_SERVER['REQUEST_METHOD'] === 'GET'){
+                $this->content = call_user_func([$this, 'createGet']);
             }
         }
     }
@@ -48,5 +52,10 @@ class PostController
         $post = $this->post::first($post);
         $message = "FromShow";
         return view('show', compact('post', 'message'));
+    }
+
+    public function createGet() {
+        $message = "FromCreate";
+        return view('create', compact('message'));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-function view(string $view, array $data)
+function view(string $view, array $data = [])
 {
     extract($data);
     ob_start();

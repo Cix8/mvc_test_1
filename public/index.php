@@ -20,28 +20,10 @@ try {
 }
 
 $conn = $db_conn->getConn();
-$stmt;
-
-try {
-    $stmt = $conn->prepare("SELECT * FROM post");
-    $stmt->execute();
-} catch (PDOException $ex) {
-    die($ex->getMessage());
-}
-
-$results;
-
-if($stmt) {
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-if($results === null) {
-    die();
-}
 
 require_once __DIR__ . "/../app/controllers/PostController.php";
 
-$postController = new \App\Controllers\PostController();
+$postController = new \App\Controllers\PostController($conn);
 
-$postController->show($results);
+// $postController->show($results);
 $postController->display();

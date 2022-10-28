@@ -2,16 +2,19 @@
 //require_once __DIR__ . "/../layout/index.template.php";
 
 use App\Database\DbFactory;
+use Core\Router;
 
 require_once __DIR__ . "/../database/DB.php";
 require_once __DIR__ . "/../database/DbFactory.php";
 require_once __DIR__ . "/../utilities/function.php";
 require_once __DIR__ . "/../app/models/Post.php";
+require_once __DIR__ . "/../core/Router.php";
 
 //error_reporting(E_ALL);
 chdir(dirname(__DIR__));
 
 $data = require "config/database.php";
+$app = require "config/app.config.php";
 
 $db_conn;
 try {
@@ -21,10 +24,13 @@ try {
 }
 
 $conn = $db_conn->getConn();
+$router = new Router($conn);
+$router->assignRoutes($app["routes"]);
 
 require_once __DIR__ . "/../app/controllers/PostController.php";
 
-$postController = new \App\Controllers\PostController($conn);
+//$postController = new \App\Controllers\PostController($conn);
+$postController = $router->dispatch();
 
 $postController->process();
 // $postController->show(2);

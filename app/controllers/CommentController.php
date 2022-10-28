@@ -14,6 +14,11 @@ class CommentController {
         $this->comment = new Comment($this->conn);
     }
 
+    public function create() {
+        $this->comment->save($_POST);
+        redirect('/post/'.$_POST["_post_id"]);
+    }
+
     public function delete(int $id) {
         $comment = $this->comment->find($id, true);
         if($comment) {

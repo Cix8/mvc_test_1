@@ -15,6 +15,7 @@ return [
             'post/create' =>  'App\Controllers\PostController@create',
             'post/delete/:id' => 'App\Controllers\PostController@delete',
             'post/update/:id' => 'App\Controllers\PostController@update',
+            'comment/create' => 'App\Controllers\CommentController@create',
             'comment/delete/:id' => 'App\Controllers\CommentController@delete',
         ]
     ]

@@ -36,7 +36,7 @@ class PostController
         $post = $this->post::first($post);
         $comments = [];
         if($post) {
-            $comments = new Comment($this->conn, $post["id"]);
+            $comments = new Comment($this->conn);
             $comments = $comments->get($id);
         }
         $message = "FromShow";

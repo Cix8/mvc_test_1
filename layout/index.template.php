@@ -16,7 +16,7 @@
 <body>
     <div class="vh-100 text-center text-white bg-dark">
 
-        <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+        <div class="cover-container d-flex w-100 p-3 mx-auto flex-column ms_cont">
             <header class="mb-auto">
                 <div>
                     <a class="text-white" href="/" style="text-decoration: none;">
@@ -31,7 +31,7 @@
             </header>
         </div>
 
-        <div class="container text-white">
+        <div class="container text-white" id="ms_main">
             <?php echo $this->content; ?>
         </div>
 

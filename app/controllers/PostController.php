@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Exception;
 use PDO;
@@ -53,8 +54,13 @@ class PostController
     {
         $post = $this->post->find($id);
         $post = $this->post::first($post);
+        $comments = [];
+        if($post) {
+            $comments = new Comment($this->conn, $post["id"]);
+            $comments = $comments->get($id);
+        }
         $message = "FromShow";
-        $this->content = view('show', compact('post', 'message'));
+        $this->content = view('show', compact('post', 'message', 'comments'));
     }
 
     public function createGet() {

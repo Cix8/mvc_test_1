@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Post;
+use Exception;
 use PDO;
 
 class PostController
@@ -71,6 +72,16 @@ class PostController
         $post = $this->post::first($post);
         $message = "FromEdit";
         $this->content = view('edit', compact('post', 'message'));
+    }
+
+    public function update(int $id) {
+        $post = $this->post->find($id, true);
+        if($post) {
+            $this->post->update($id, $_POST);
+            redirect("/post/".$id);
+        } else {
+            throw new Exception("Nessun post corrispondente");
+        }
     }
 
     public function delete(int $id) {

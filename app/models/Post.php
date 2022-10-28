@@ -67,13 +67,13 @@ class Post
 
     public function save(array $data = []) {
         if(!array_key_exists('title', $data) || trim($data["title"]) === "") {
-            redirect("/create");
+            redirect("/post/create");
         }
         if(!array_key_exists('message', $data) || trim($data["message"]) === "") {
-            redirect("/create");
+            redirect("/post/create");
         }
         if(!array_key_exists('email', $data) || trim($data["email"]) === "") {
-            redirect("/create");
+            redirect("/post/create");
         }
         $query = "INSERT INTO post (title, message, email, created_at) VALUES (:title, :message, :email, :created)";
         $stmt = $this->conn->prepare($query);
@@ -81,6 +81,14 @@ class Post
         $stmt->bindParam("message", trim($data["message"]), PDO::PARAM_STR);
         $stmt->bindParam("email", trim($data["email"]), PDO::PARAM_STR);
         $stmt->bindParam("created", date("Y-m-d H:i:s", time() + 7200));
+
+        $stmt->execute();
+    }
+
+    public function delete(int $id) {
+        $query = "DELETE FROM post WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam("id", intval($id), PDO::PARAM_INT);
 
         $stmt->execute();
     }

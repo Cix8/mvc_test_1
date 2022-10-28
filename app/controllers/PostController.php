@@ -65,4 +65,16 @@ class PostController
         $this->post->save($_POST);
         redirect();
     }
+
+    public function edit(int $id) {
+        $post = $this->post->find($id);
+        $post = $this->post::first($post);
+        $message = "FromEdit";
+        $this->content = view('edit', compact('post', 'message'));
+    }
+
+    public function delete(int $id) {
+        $this->post->delete($id);
+        redirect();
+    }
 }

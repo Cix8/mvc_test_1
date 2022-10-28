@@ -1,7 +1,7 @@
 <h1>Crea post</h1>
 <h3><?php echo htmlentities($message); ?></h3>
 
-<form class="w-50 mx-auto py-3" action="/create" method="POST">
+<form class="w-50 mx-auto py-3" action="/post/create" method="POST">
     <div class="mb-3">
         <label for="title" class="form-label">Titolo</label>
         <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp" require>

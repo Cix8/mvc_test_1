@@ -24,26 +24,6 @@ class PostController
         require $this->layout;
     }
 
-    public function process() {
-        // $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        // $url = trim($url, '/');
-        // $keys = explode('/', $url);
-
-        // if($keys[0] === "posts" || $keys[0] === "") {
-        //     $this->content = $this->index();
-        // } else if($keys[0] === "post" && is_int(intval($keys[1]))) {
-        //     if($_SERVER['REQUEST_METHOD'] === 'GET'){
-        //         $this->content = call_user_func([$this, 'show'], intval($keys[1]));
-        //     }
-        // } else if($keys[0] === "create") {
-        //     if($_SERVER['REQUEST_METHOD'] === 'GET'){
-        //         $this->content = call_user_func([$this, 'createGet']);
-        //     } else if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //         $this->content = call_user_func([$this, 'create']);
-        //     }
-        // }
-    }
-
     public function index() {
         $posts = $this->post->get();
         $message = "FromIndex";

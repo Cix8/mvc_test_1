@@ -34,6 +34,6 @@ require_once __DIR__ . "/../app/controllers/CommentController.php";
 //$postController = new \App\Controllers\PostController($conn);
 $postController = $router->dispatch();
 
-$postController->process();
-// $postController->show(2);
+//$postController->process();
+//$postController->show(2);
 $postController->display();

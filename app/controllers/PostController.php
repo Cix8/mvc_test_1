@@ -47,6 +47,7 @@ class PostController extends Controller
     }
 
     public function create() {
+        $_POST["user_id"] = $_SESSION["user"]["id"];
         $this->post->save($_POST);
         redirect();
     }

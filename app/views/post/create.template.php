@@ -2,7 +2,7 @@
 <h3><?php echo htmlentities($message); ?></h3>
 
 <form class="w-50 mx-auto py-3" action="/post/create" method="POST">
-    <input type="hidden" value="1" name="user_id">
+    <input type="hidden" value="" name="user_id">
     <div class="mb-3">
         <label for="title" class="form-label">Titolo</label>
         <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp" require>

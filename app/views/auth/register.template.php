@@ -18,7 +18,7 @@
     <div class="mb-3 text-center">
         <span class="d-inline-block mb-2">Ruolo</span>
         <select class="form-select" aria-label="Default select example" name="roletype">
-            <option selected>Open this select menu</option>
+            <option selected>Scegli un ruolo</option>
             <option value="user">User</option>
             <option value="editor">Editor</option>
             <option value="admin">Admin</option>

@@ -75,8 +75,12 @@ class Post
         if(!array_key_exists('email', $data) || trim($data["email"]) === "") {
             redirect("/post/create");
         }
-        $query = "INSERT INTO post (title, message, email, created_at) VALUES (:title, :message, :email, :created)";
+        if(!array_key_exists('user_id', $data) || trim($data["user_id"]) === "") {
+            redirect("/post/create");
+        }
+        $query = "INSERT INTO post (title, message, email, created_at, user_id) VALUES (:title, :message, :email, :created, :user_id)";
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam("user_id", trim($data["user_id"]), PDO::PARAM_INT);
         $stmt->bindParam("title", trim($data["title"]), PDO::PARAM_STR);
         $stmt->bindParam("message", trim($data["message"]), PDO::PARAM_STR);
         $stmt->bindParam("email", trim($data["email"]), PDO::PARAM_STR);

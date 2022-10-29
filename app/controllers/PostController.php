@@ -7,15 +7,12 @@ use App\Models\Post;
 use Exception;
 use PDO;
 
-class PostController
+class PostController extends Controller
 {
-    protected string $layout = "layout/index.template.php";
-    public string $content = "im in im in";
-    protected $conn;
     protected Post $post;
     public function __construct(PDO $_conn)
     {
-        $this->conn = $_conn;
+        parent::__construct($_conn);
         $this->post = new Post($this->conn);
     }
 
@@ -27,7 +24,7 @@ class PostController
     public function index() {
         $posts = $this->post->get();
         $message = "FromIndex";
-        $this->content = view('index', compact('posts', 'message'));
+        $this->content = view('post/index', compact('posts', 'message'));
     }
 
     public function show(int $id)
@@ -40,12 +37,12 @@ class PostController
             $comments = $comments->get($id);
         }
         $message = "FromShow";
-        $this->content = view('show', compact('post', 'message', 'comments'));
+        $this->content = view('post/show', compact('post', 'message', 'comments'));
     }
 
     public function createGet() {
         $message = "FromCreate";
-        $this->content = view('create', compact('message'));
+        $this->content = view('post/create', compact('message'));
     }
 
     public function create() {
@@ -57,7 +54,7 @@ class PostController
         $post = $this->post->find($id);
         $post = $this->post::first($post);
         $message = "FromEdit";
-        $this->content = view('edit', compact('post', 'message'));
+        $this->content = view('post/edit', compact('post', 'message'));
     }
 
     public function update(int $id) {

@@ -28,6 +28,12 @@
                         <a class="nav-link" href="/post/create">Nuovo Post</a>
                         <a class="nav-link" href="/auth/login">Login</a>
                         <a class="nav-link" href="/auth/register">Registrati</a>
+                        <?php if($_SESSION["user"]) { ?>
+                            <form action="/auth/logout" method="POST" class="d-inline">
+                                <input type="hidden" name="action" value="logout">
+                                <button type="submit" class="btn btn-primary">Logout</button>
+                            </form>
+                        <?php } ?>
                     </nav>
                 </div>
             </header>

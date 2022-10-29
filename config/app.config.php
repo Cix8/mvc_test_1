@@ -20,7 +20,8 @@ return [
             'comment/create' => 'App\Controllers\CommentController@create',
             'comment/delete/:id' => 'App\Controllers\CommentController@delete',
             'auth/login' => 'App\Controllers\LoginController@login',
-            'auth/register' => 'App\Controllers\LoginController@register'
+            'auth/register' => 'App\Controllers\LoginController@register',
+            'auth/logout' => 'App\Controllers\LoginController@logout'
         ]
     ]
 ];

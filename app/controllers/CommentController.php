@@ -5,12 +5,11 @@ namespace App\Controllers;
 use App\Models\Comment;
 use PDO;
 
-class CommentController {
-    protected $conn;
+class CommentController extends Controller {
     protected Comment $comment;
     public function __construct(PDO $_conn)
     {
-        $this->conn = $_conn;
+        parent::__construct($_conn);
         $this->comment = new Comment($this->conn);
     }
 
@@ -20,6 +19,8 @@ class CommentController {
     }
 
     public function delete(int $id) {
+        $this->protect();
+        $this->protectBy(["none", "edit"]);
         $comment = $this->comment->find($id, true);
         if($comment) {
             $this->comment->delete($id);

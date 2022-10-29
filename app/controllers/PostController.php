@@ -32,6 +32,7 @@ class PostController extends Controller
 
     public function show(int $id)
     {
+        $csrf = LoginController::extToken();
         $post = $this->post->find($id);
         $post = $this->post::first($post);
         $comments = [];
@@ -40,29 +41,33 @@ class PostController extends Controller
             $comments = $comments->get($id);
         }
         $message = "FromShow";
-        $this->content = view('post/show', compact('post', 'message', 'comments'));
+        $this->content = view('post/show', compact('post', 'message', 'comments', 'csrf'));
     }
 
     public function createGet() {
+        $csrf = LoginController::extToken();
         $message = "FromCreate";
-        $this->content = view('post/create', compact('message'));
+        $this->content = view('post/create', compact('message', 'csrf'));
     }
 
     public function create() {
+        LoginController::checkToken('post/create');
         $_POST["user_id"] = $_SESSION["user"]["id"];
         $this->post->save($_POST);
         redirect();
     }
 
     public function edit(int $id) {
+        $csrf = LoginController::extToken();
         $this->protectBy(["none"]);
         $post = $this->post->find($id);
         $post = $this->post::first($post);
         $message = "FromEdit";
-        $this->content = view('post/edit', compact('post', 'message'));
+        $this->content = view('post/edit', compact('post', 'message', 'csrf'));
     }
 
     public function update(int $id) {
+        LoginController::checkToken('post/update/'.$id);
         $this->protectBy(["none"]);
         $post = $this->post->find($id, true);
         if($post) {
@@ -74,6 +79,7 @@ class PostController extends Controller
     }
 
     public function delete(int $id) {
+        LoginController::checkToken('post/'.(string)$id);
         $this->protectBy(["none", "edit"]);
         $this->post->delete($id);
         redirect();

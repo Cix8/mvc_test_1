@@ -27,7 +27,15 @@ class LoginController extends Controller
         $bytes = random_bytes(32);
         $token = bin2hex($bytes);
         $csrf = hash("md5", $token);
+        $_SESSION["csrf"] = $csrf;
         return $csrf;
+    }
+
+    public static function checkToken(string $path = "") {
+        if($_POST["_csrf"] !== $_SESSION["csrf"]) {
+            redirect('/'.$path);
+            exit;
+        }
     }
 
     public function showLogin()

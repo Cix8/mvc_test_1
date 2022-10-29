@@ -2,6 +2,7 @@
 <h3><?php echo htmlentities($message); ?></h3>
 
 <form class="w-50 mx-auto py-3" action="/auth/login" method="POST">
+    <input type="hidden" value="<?php echo $token ?>" name="_csrf">
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" require>

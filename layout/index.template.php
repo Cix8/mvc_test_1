@@ -16,7 +16,7 @@
 <body>
     <div class="vh-100 text-center text-white bg-dark">
 
-        <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
+        <div class="cover-container d-flex w-100 p-3 mx-auto flex-column ms_cont">
             <header class="mb-auto">
                 <div>
                     <a class="text-white" href="/" style="text-decoration: none;">
@@ -24,14 +24,14 @@
                     </a>
                     <nav class="nav nav-masthead justify-content-center float-md-end">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
-                        <a class="nav-link" href="/create">Nuovo Post</a>
+                        <a class="nav-link" href="post/create">Nuovo Post</a>
                         <a class="nav-link" href="">Contact</a>
                     </nav>
                 </div>
             </header>
         </div>
 
-        <div class="container text-white">
+        <div class="container text-white" id="ms_main">
             <?php echo $this->content; ?>
         </div>
 

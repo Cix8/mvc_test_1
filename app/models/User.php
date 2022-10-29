@@ -7,12 +7,15 @@ use PDOException;
 
 class User
 {
-
     protected PDO $conn;
 
     public function __construct(PDO $_conn)
     {
         $this->conn = $_conn;
+    }
+
+    public static function getRole(array $array) {
+        return $array["roletype"];
     }
 
     public function getByEmail(string $email, bool $first = false)

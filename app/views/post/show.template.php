@@ -10,10 +10,14 @@
                 <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlentities($post["email"]); ?></h6>
                 <p class="card-text text-dark"><?php echo htmlentities($post["message"]); ?></p>
                 <div class="container d-flex justify-content-center">
-                    <a href="/post/update/<?php echo $post["id"]; ?>" class="btn btn-warning">Modifica</a>
-                    <form class="ms-2" action="/post/delete/<?php echo intval($post["id"]); ?>" method="POST">
-                        <button type="submit" class="btn btn-danger">Elimina</button>
-                    </form>
+                    <?php if($_SESSION["permission"] === "edit" || $_SESSION["permission"] === "all") { ?>
+                        <a href="/post/update/<?php echo $post["id"]; ?>" class="btn btn-warning">Modifica</a>
+                    <?php } ?>
+                    <?php if($_SESSION["permission"] === "all") { ?>
+                        <form class="ms-2" action="/post/delete/<?php echo intval($post["id"]); ?>" method="POST">
+                            <button type="submit" class="btn btn-danger">Elimina</button>
+                        </form>
+                    <?php } ?>
                 </div>
                 <!-- <a href="#" class="card-link">Card link</a>
                         <a href="#" class="card-link">Another link</a> -->
@@ -31,11 +35,13 @@
                     <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlentities($comment["email"]); ?></h6>
                     <p class="card-text text-dark"><?php echo htmlentities($comment["comment"]); ?></p>
                     <p class="card-text text-dark">Creato: <?php echo htmlentities($comment["created_at"]); ?></p>
-                    <div class="container d-flex justify-content-center">
-                        <form class="ms-2" action="/comment/delete/<?php echo intval($comment["id"]); ?>" method="POST">
-                            <button type="submit" class="btn btn-danger">Elimina</button>
-                        </form>
-                    </div>
+                    <?php if($_SESSION["permission"] === "all") { ?>
+                        <div class="container d-flex justify-content-center">
+                            <form class="ms-2" action="/comment/delete/<?php echo intval($comment["id"]); ?>" method="POST">
+                                <button type="submit" class="btn btn-danger">Elimina</button>
+                            </form>
+                        </div>
+                    <?php } ?>
                 </div>
             </li>
         <?php } ?>

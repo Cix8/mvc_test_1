@@ -22,7 +22,8 @@ class LoginController extends Controller
         return $csrf;
     }
 
-    public static function extToken() {
+    public static function extToken()
+    {
         $bytes = random_bytes(32);
         $token = bin2hex($bytes);
         $csrf = hash("md5", $token);
@@ -50,10 +51,15 @@ class LoginController extends Controller
             session_regenerate_id();
             $_SESSION['loggedin'] = true;
             unset($result['user']['password']);
+            $role = $result['user']['roletype'];
+            $_SESSION['permission'] = "none";
+            if ($role === 'admin') {
+                $_SESSION['permission'] = "all";
+            } else if ($role === 'editor') {
+                $_SESSION['permission'] = "edit";
+            }
             $_SESSION['user'] = $result['user'];
             redirect('/');
-
-
         } else {
             session_regenerate_id();
             $_SESSION = [];
@@ -68,27 +74,35 @@ class LoginController extends Controller
         $email  = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
         $username = $_POST['username'] ?? '';
+        $role = $_POST['roletype'] ?? '';
         $result = $this->verifyRegister($email, $password, $token);
 
-        if($result['success']){
+        if ($result['success']) {
 
             $user = new User($this->conn);
 
             $data['email']  = $email;
             $data['username']  = $username;
+            $data['roletype'] = $role;
             $data['password']  = password_hash($password, PASSWORD_DEFAULT);
 
             $result = $user->saveUser($data);
             //dd($resultSave);
-            if($result['success']) {
+            if ($result['success']) {
                 $data['id'] = $result['id'];
                 session_regenerate_id();
 
                 $_SESSION['loggedin'] = true;
                 unset($data['password']);
+                $role = $data['roletype'];
+                $_SESSION['permission'] = "none";
+                if ($role === 'admin') {
+                    $_SESSION['permission'] = "all";
+                } else if ($role === 'editor') {
+                    $_SESSION['permission'] = "edit";
+                }
                 $_SESSION['user'] = $data;
                 redirect('/');
-
             } else {
                 redirect("/auth/register");
             }
@@ -155,7 +169,8 @@ class LoginController extends Controller
         return $result;
     }
 
-    private function verifyRegister($email, $password, $token){
+    private function verifyRegister($email, $password, $token)
+    {
 
 
         $result = [
@@ -163,7 +178,7 @@ class LoginController extends Controller
             'success' => true
 
         ];
-        if($token !== $_SESSION['csrf']){
+        if ($token !== $_SESSION['csrf']) {
             $result = [
                 'message' => 'TOKEN MISMATCH',
                 'success' => false
@@ -173,7 +188,7 @@ class LoginController extends Controller
         }
         $email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
-        if(!$email){
+        if (!$email) {
             $result = [
                 'message' => 'WRONG EMAIL',
                 'success' => false
@@ -181,7 +196,7 @@ class LoginController extends Controller
             ];
             return $result;
         }
-        if(strlen($password) < 6){
+        if (strlen($password) < 6) {
             $result = [
                 'message' => 'PASSWORD TOO SMALL',
                 'success' => false
@@ -192,7 +207,7 @@ class LoginController extends Controller
         $user = new User($this->conn);
         $resEmail = $user->getByEmail($email);
 
-        if($resEmail){
+        if ($resEmail) {
             $result = [
                 'message' => 'A USER ALREADY EXISTS WITH THIS EMAIL',
                 'success' => false

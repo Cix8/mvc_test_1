@@ -52,6 +52,7 @@ class PostController extends Controller
     }
 
     public function edit(int $id) {
+        $this->protectBy(["none"]);
         $post = $this->post->find($id);
         $post = $this->post::first($post);
         $message = "FromEdit";
@@ -59,6 +60,7 @@ class PostController extends Controller
     }
 
     public function update(int $id) {
+        $this->protectBy(["none"]);
         $post = $this->post->find($id, true);
         if($post) {
             $this->post->update($id, $_POST);
@@ -69,6 +71,7 @@ class PostController extends Controller
     }
 
     public function delete(int $id) {
+        $this->protectBy(["none", "edit"]);
         $this->post->delete($id);
         redirect();
     }

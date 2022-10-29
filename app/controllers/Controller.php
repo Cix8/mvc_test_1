@@ -34,4 +34,13 @@ class Controller {
             exit;
         }
     }
+
+    protected function protectBy(array $values) {
+        foreach($values as $value) {
+            if(!isset($_SESSION["permission"]) || $_SESSION["permission"] === $value) {
+                redirect("/");
+                exit;
+            }
+        }
+    }
 }

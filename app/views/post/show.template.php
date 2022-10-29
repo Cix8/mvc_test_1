@@ -83,17 +83,12 @@
 <script type="text/javascript">
     const form = document.getElementById("deleteForm");
     if (form) {
-        const mainCont = document.getElementById("main_cont");
-        console.log(form);
-        console.log(mainCont);
         form.classList.add("d-none");
         const falseBtn = document.getElementById("falseBtn");
-        console.log(falseBtn);
         falseBtn.addEventListener("click", function() {
             form.classList.remove("d-none");
 
             const abortBtn = document.getElementById("abortBtn");
-            console.log(abortBtn);
             abortBtn.addEventListener("click", function() {
                 form.classList.add("d-none");
             })

@@ -6,7 +6,7 @@ return [
         'GET' => [
             '' => 'App\Controllers\PostController@index',
             '/' => 'App\Controllers\PostController@index',
-            'posts' => 'App\Controllers\PostController@index',
+            'posts' => 'App\Controllers\PostController@getMy',
             'post/create' => 'App\Controllers\PostController@createGet',
             'post/:id' => 'App\Controllers\PostController@show',
             'post/update/:id' => 'App\Controllers\PostController@edit',

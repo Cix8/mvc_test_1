@@ -13,14 +13,19 @@ class Post
         $this->conn = $_conn;
     }
 
-    public function get()
+    public function get(int $user_id = 0)
     {
         $result = [];
         $stmt = null;
 
         
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM post");
+            if($user_id > 0) {
+                $stmt = $this->conn->prepare("SELECT * FROM post WHERE user_id = :user_id");
+                $stmt->bindParam("user_id", $user_id, PDO::PARAM_INT);
+            } else {
+                $stmt = $this->conn->prepare("SELECT * FROM post");
+            }
             $stmt->execute();
         } catch (PDOException $ex) {
             die($ex->getMessage());

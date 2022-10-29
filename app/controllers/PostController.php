@@ -28,6 +28,13 @@ class PostController extends Controller
         $this->content = view('post/index', compact('posts', 'message'));
     }
 
+    public function getMy() {
+        $id = (int)intval($_SESSION["user"]["id"]);
+        $posts = $this->post->get($id);
+        $message = "I Miei Post";
+        $this->content = view('post/index', compact('posts', 'message'));
+    }
+
     public function show(int $id)
     {
         $post = $this->post->find($id);

@@ -2,9 +2,9 @@
 
 <h3><?php echo htmlentities($message); ?></h3>
 
-<div class="d-flex align-items-center flex-column">
+<div class="d-flex align-items-center flex-column" id="main_cont">
     <ul class="list-group py-5">
-        <li class="card" style="width: 18rem;">
+        <li class="card ms_card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title text-dark"><?php echo htmlentities($post["title"]); ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlentities($post["email"]); ?></h6>
@@ -14,10 +14,17 @@
                         <a href="/post/update/<?php echo $post["id"]; ?>" class="btn btn-warning">Modifica</a>
                     <?php } ?>
                     <?php if ($_SESSION["permission"] === "all") { ?>
-                        <form class="ms-2" action="/post/delete/<?php echo intval($post["id"]); ?>" method="POST">
-                            <input type="hidden" name="_csrf" value="<?php echo $csrf ?>">
-                            <button type="submit" class="btn btn-danger">Elimina</button>
-                        </form>
+                        <button class="btn btn-danger ms-2" id="falseBtn">Elimina</button>
+                        <div class="form-cont vh-100 vw-100 position-absolute top-0 start-0 ms_form" id="deleteForm">
+                            <h2 class="text-warning">Sei sicuro di voler eliminare il post?</h2>
+                            <div class="container d-flex justify-content-center py-5">
+                                <button class="btn btn-warning" id="abortBtn">Annulla</button>
+                                <form class="ms-4" action="/post/delete/<?php echo intval($post["id"]); ?>" method="POST">
+                                    <input type="hidden" name="_csrf" value="<?php echo $csrf ?>">
+                                    <button type="submit" class="btn btn-danger">Elimina</button>
+                                </form>
+                            </div>
+                        </div>
                     <?php } ?>
                 </div>
                 <!-- <a href="#" class="card-link">Card link</a>
@@ -72,3 +79,24 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+    const form = document.getElementById("deleteForm");
+    if (form) {
+        const mainCont = document.getElementById("main_cont");
+        console.log(form);
+        console.log(mainCont);
+        form.classList.add("d-none");
+        const falseBtn = document.getElementById("falseBtn");
+        console.log(falseBtn);
+        falseBtn.addEventListener("click", function() {
+            form.classList.remove("d-none");
+
+            const abortBtn = document.getElementById("abortBtn");
+            console.log(abortBtn);
+            abortBtn.addEventListener("click", function() {
+                form.classList.add("d-none");
+            })
+        })
+    }
+</script>

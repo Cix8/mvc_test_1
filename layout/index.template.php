@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div class="vh-100 text-center text-white bg-dark">
+    <div class="vh-100 position-relative text-center text-white bg-dark">
 
         <div class="cover-container d-flex w-100 p-3 mx-auto flex-column ms_cont">
             <header class="mb-auto">

@@ -7,31 +7,32 @@ use App\Models\Post;
 use Exception;
 use PDO;
 
-class PostController
+class PostController extends Controller
 {
-    protected string $layout = "layout/index.template.php";
-    public string $content = "im in im in";
-    protected $conn;
     protected Post $post;
     public function __construct(PDO $_conn)
     {
-        $this->conn = $_conn;
+        $this->locked = true;
+        parent::__construct($_conn);
         $this->post = new Post($this->conn);
-    }
-
-    public function display()
-    {
-        require $this->layout;
     }
 
     public function index() {
         $posts = $this->post->get();
         $message = "FromIndex";
-        $this->content = view('index', compact('posts', 'message'));
+        $this->content = view('post/index', compact('posts', 'message'));
+    }
+
+    public function getMy() {
+        $id = (int)intval($_SESSION["user"]["id"]);
+        $posts = $this->post->get($id);
+        $message = "I Miei Post";
+        $this->content = view('post/index', compact('posts', 'message'));
     }
 
     public function show(int $id)
     {
+        $csrf = LoginController::extToken();
         $post = $this->post->find($id);
         $post = $this->post::first($post);
         $comments = [];
@@ -40,27 +41,34 @@ class PostController
             $comments = $comments->get($id);
         }
         $message = "FromShow";
-        $this->content = view('show', compact('post', 'message', 'comments'));
+        $this->content = view('post/show', compact('post', 'message', 'comments', 'csrf'));
     }
 
     public function createGet() {
+        $csrf = LoginController::extToken();
         $message = "FromCreate";
-        $this->content = view('create', compact('message'));
+        $this->content = view('post/create', compact('message', 'csrf'));
     }
 
     public function create() {
+        LoginController::checkToken('post/create');
+        $_POST["user_id"] = $_SESSION["user"]["id"];
         $this->post->save($_POST);
         redirect();
     }
 
     public function edit(int $id) {
+        $csrf = LoginController::extToken();
+        $this->protectBy(["none"]);
         $post = $this->post->find($id);
         $post = $this->post::first($post);
         $message = "FromEdit";
-        $this->content = view('edit', compact('post', 'message'));
+        $this->content = view('post/edit', compact('post', 'message', 'csrf'));
     }
 
     public function update(int $id) {
+        LoginController::checkToken('post/update/'.$id);
+        $this->protectBy(["none"]);
         $post = $this->post->find($id, true);
         if($post) {
             $this->post->update($id, $_POST);
@@ -71,6 +79,8 @@ class PostController
     }
 
     public function delete(int $id) {
+        LoginController::checkToken('post/'.(string)$id);
+        $this->protectBy(["none", "edit"]);
         $this->post->delete($id);
         redirect();
     }

@@ -2,18 +2,30 @@
 
 <h3><?php echo htmlentities($message); ?></h3>
 
-<div class="d-flex align-items-center flex-column">
+<div class="d-flex align-items-center flex-column" id="main_cont">
     <ul class="list-group py-5">
-        <li class="card" style="width: 18rem;">
+        <li class="card ms_card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title text-dark"><?php echo htmlentities($post["title"]); ?></h5>
                 <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlentities($post["email"]); ?></h6>
                 <p class="card-text text-dark"><?php echo htmlentities($post["message"]); ?></p>
                 <div class="container d-flex justify-content-center">
-                    <a href="/post/update/<?php echo $post["id"]; ?>" class="btn btn-warning">Modifica</a>
-                    <form class="ms-2" action="/post/delete/<?php echo intval($post["id"]); ?>" method="POST">
-                        <button type="submit" class="btn btn-danger">Elimina</button>
-                    </form>
+                    <?php if ($_SESSION["permission"] === "edit" || $_SESSION["permission"] === "all") { ?>
+                        <a href="/post/update/<?php echo $post["id"]; ?>" class="btn btn-warning">Modifica</a>
+                    <?php } ?>
+                    <?php if ($_SESSION["permission"] === "all") { ?>
+                        <button class="btn btn-danger ms-2" id="falseBtn">Elimina</button>
+                        <div class="form-cont vh-100 vw-100 position-absolute top-0 start-0 ms_form" id="deleteForm">
+                            <h2 class="text-warning">Sei sicuro di voler eliminare il post?</h2>
+                            <div class="container d-flex justify-content-center py-5">
+                                <button class="btn btn-warning" id="abortBtn">Annulla</button>
+                                <form class="ms-4" action="/post/delete/<?php echo intval($post["id"]); ?>" method="POST">
+                                    <input type="hidden" name="_csrf" value="<?php echo $csrf ?>">
+                                    <button type="submit" class="btn btn-danger">Elimina</button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
                 <!-- <a href="#" class="card-link">Card link</a>
                         <a href="#" class="card-link">Another link</a> -->
@@ -31,11 +43,13 @@
                     <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlentities($comment["email"]); ?></h6>
                     <p class="card-text text-dark"><?php echo htmlentities($comment["comment"]); ?></p>
                     <p class="card-text text-dark">Creato: <?php echo htmlentities($comment["created_at"]); ?></p>
-                    <div class="container d-flex justify-content-center">
-                        <form class="ms-2" action="/comment/delete/<?php echo intval($comment["id"]); ?>" method="POST">
-                            <button type="submit" class="btn btn-danger">Elimina</button>
-                        </form>
-                    </div>
+                    <?php if ($_SESSION["permission"] === "all") { ?>
+                        <div class="container d-flex justify-content-center">
+                            <form class="ms-2" action="/comment/delete/<?php echo intval($comment["id"]); ?>" method="POST">
+                                <button type="submit" class="btn btn-danger">Elimina</button>
+                            </form>
+                        </div>
+                    <?php } ?>
                 </div>
             </li>
         <?php } ?>
@@ -65,3 +79,19 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+    const form = document.getElementById("deleteForm");
+    if (form) {
+        form.classList.add("d-none");
+        const falseBtn = document.getElementById("falseBtn");
+        falseBtn.addEventListener("click", function() {
+            form.classList.remove("d-none");
+
+            const abortBtn = document.getElementById("abortBtn");
+            abortBtn.addEventListener("click", function() {
+                form.classList.add("d-none");
+            })
+        })
+    }
+</script>

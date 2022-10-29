@@ -2,6 +2,7 @@
 <h3><?php echo htmlentities($message); ?></h3>
 
 <form class="w-50 mx-auto py-3" action="/post/update/<?php echo $post["id"]; ?>" method="POST">
+    <input type="hidden" name="_csrf" value="<?php echo $csrf ?>">
     <div class="mb-3">
         <label for="title" class="form-label">Titolo</label>
         <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp" value="<?php echo $post["title"]; ?>" require>

@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div class="vh-100 text-center text-white bg-dark">
+    <div class="vh-100 position-relative text-center text-white bg-dark">
 
         <div class="cover-container d-flex w-100 p-3 mx-auto flex-column ms_cont">
             <header class="mb-auto">
@@ -24,8 +24,17 @@
                     </a>
                     <nav class="nav nav-masthead justify-content-center float-md-end">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
-                        <a class="nav-link" href="post/create">Nuovo Post</a>
-                        <a class="nav-link" href="">Contact</a>
+                        <a class="nav-link active" aria-current="page" href="/posts">I Miei Post</a>
+                        <a class="nav-link" href="/post/create">Nuovo Post</a>
+                        <?php if($_SESSION["user"]) { ?>
+                            <form action="/auth/logout" method="POST" class="d-inline">
+                                <input type="hidden" name="action" value="logout">
+                                <button type="submit" class="btn btn-primary">Logout</button>
+                            </form>
+                        <?php } else { ?>
+                            <a class="nav-link" href="/auth/login">Login</a>
+                            <a class="nav-link" href="/auth/register">Registrati</a>
+                        <?php } ?>
                     </nav>
                 </div>
             </header>

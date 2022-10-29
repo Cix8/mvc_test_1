@@ -8,7 +8,7 @@ class Controller {
     protected string $layout = "layout/index.template.php";
     public string $content = "im in im in";
     protected $conn;
-    protected $locked = false;
+    protected bool $locked = false;
 
     public function __construct(PDO $_conn)
     {

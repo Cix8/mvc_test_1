@@ -38,6 +38,9 @@ class LoginController extends Controller
 
     public function showRegister()
     {
+        $token = $this->generateToken();
+        $message = "FromRegister";
+        $this->content = view('auth/register', compact('message', 'token'));
     }
 
     public function login()
@@ -56,6 +59,41 @@ class LoginController extends Controller
             $_SESSION = [];
             $_SESSION['message'] = $result['message'];
             redirect('/auth/login');
+        }
+    }
+
+    public function register()
+    {
+        $token = $_POST['_csrf'] ?? '';
+        $email  = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $username = $_POST['username'] ?? '';
+        $result = $this->verifyRegister($email, $password, $token);
+
+        if($result['success']){
+
+            $user = new User($this->conn);
+
+            $data['email']  = $email;
+            $data['username']  = $username;
+            $data['password']  = password_hash($password, PASSWORD_DEFAULT);
+
+            $result = $user->saveUser($data);
+            //dd($resultSave);
+            if($result['success']) {
+                $data['id'] = $result['id'];
+                session_regenerate_id();
+
+                $_SESSION['loggedin'] = true;
+                unset($data['password']);
+                $_SESSION['user'] = $data;
+                redirect('/');
+
+            } else {
+                redirect("/auth/register");
+            }
+        } else {
+            redirect("/auth/register");
         }
     }
 
@@ -113,6 +151,57 @@ class LoginController extends Controller
             return $result;
         }
         $result['user'] = (array)$userResult;
+
+        return $result;
+    }
+
+    private function verifyRegister($email, $password, $token){
+
+
+        $result = [
+            'message' => 'USER SIGNED UP CORRECTLY',
+            'success' => true
+
+        ];
+        if($token !== $_SESSION['csrf']){
+            $result = [
+                'message' => 'TOKEN MISMATCH',
+                'success' => false
+
+            ];
+            return $result;
+        }
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+        if(!$email){
+            $result = [
+                'message' => 'WRONG EMAIL',
+                'success' => false
+
+            ];
+            return $result;
+        }
+        if(strlen($password) < 6){
+            $result = [
+                'message' => 'PASSWORD TOO SMALL',
+                'success' => false
+
+            ];
+            return $result;
+        }
+        $user = new User($this->conn);
+        $resEmail = $user->getByEmail($email);
+
+        if($resEmail){
+            $result = [
+                'message' => 'A USER ALREADY EXISTS WITH THIS EMAIL',
+                'success' => false
+
+            ];
+            return $result;
+        }
+
+
 
         return $result;
     }

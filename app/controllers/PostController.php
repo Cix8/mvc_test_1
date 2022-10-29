@@ -17,11 +17,6 @@ class PostController extends Controller
         $this->post = new Post($this->conn);
     }
 
-    public function display()
-    {
-        require $this->layout;
-    }
-
     public function index() {
         $posts = $this->post->get();
         $message = "FromIndex";

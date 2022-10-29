@@ -12,6 +12,7 @@ class PostController extends Controller
     protected Post $post;
     public function __construct(PDO $_conn)
     {
+        $this->locked = true;
         parent::__construct($_conn);
         $this->post = new Post($this->conn);
     }
@@ -22,7 +23,6 @@ class PostController extends Controller
     }
 
     public function index() {
-        $this->protect();
         $posts = $this->post->get();
         $message = "FromIndex";
         $this->content = view('post/index', compact('posts', 'message'));
@@ -30,7 +30,6 @@ class PostController extends Controller
 
     public function show(int $id)
     {
-        $this->protect();
         $post = $this->post->find($id);
         $post = $this->post::first($post);
         $comments = [];
@@ -43,19 +42,16 @@ class PostController extends Controller
     }
 
     public function createGet() {
-        $this->protect();
         $message = "FromCreate";
         $this->content = view('post/create', compact('message'));
     }
 
     public function create() {
-        $this->protect();
         $this->post->save($_POST);
         redirect();
     }
 
     public function edit(int $id) {
-        $this->protect();
         $post = $this->post->find($id);
         $post = $this->post::first($post);
         $message = "FromEdit";
@@ -63,7 +59,6 @@ class PostController extends Controller
     }
 
     public function update(int $id) {
-        $this->protect();
         $post = $this->post->find($id, true);
         if($post) {
             $this->post->update($id, $_POST);
@@ -74,7 +69,6 @@ class PostController extends Controller
     }
 
     public function delete(int $id) {
-        $this->protect();
         $this->post->delete($id);
         redirect();
     }

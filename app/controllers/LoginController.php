@@ -230,7 +230,7 @@ class LoginController extends Controller
     }
 
     public function logout() {
-        if(!empty($_POST["action"]) && $_POST["action"] == "logout") {
+        if(!empty($_POST["action"]) && $_POST["action"] === "logout") {
             session_regenerate_id();
             $_SESSION = [];
             redirect('/auth/login');

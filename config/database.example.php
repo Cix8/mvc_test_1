@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'db_type' => 'mysql', // può essere sqllite,mssql, oci
+    'db_type' => 'mysql',
     'host' => 'localhost',
     'user' => 'username',
     'password' => 'password',

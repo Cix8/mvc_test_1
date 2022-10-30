@@ -65,7 +65,6 @@ class Router
 
     protected function processQueue($uri, $method = 'GET')
     {
-        // routes ['GET'] =
         $routes = $this->routes[$method];
         //print_r($routes);
 
@@ -82,10 +81,8 @@ class Router
 
             // echo $pattern . '<br>';
 
-            $matches = array();
-            // check if the current request matches the expression
+            $matches = [];
             if (preg_match($pattern, $uri, $matches)) {
-                // remove the first match
 
                 array_shift($matches);
                 return $this->route($callback, $matches);

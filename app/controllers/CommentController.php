@@ -9,6 +9,7 @@ class CommentController extends Controller {
     protected Comment $comment;
     public function __construct(PDO $_conn)
     {
+        $this->locked = true;
         parent::__construct($_conn);
         $this->comment = new Comment($this->conn);
     }
@@ -19,7 +20,6 @@ class CommentController extends Controller {
     }
 
     public function delete(int $id) {
-        $this->protect();
         $this->protectBy(["none", "edit"]);
         $comment = $this->comment->find($id, true);
         if($comment) {
